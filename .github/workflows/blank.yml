@@ -25,5 +25,5 @@ jobs:
         user: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         localDir: "./live"
-        remoteDir: "/main-project"
+        remoteDir: "/prod-project"
         delete: "true"
