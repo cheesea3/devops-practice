@@ -7,9 +7,9 @@
   <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.1/dist/alpine.min.js" defer></script>
 	<title>Production site</title>
 </head>
-<body class="bg-gray-500">
-<div clas="text-gray-900 text-xl items-center text-center">
-Production site
+<body class="bg-red-500">
+<div clas="text-red-900 text-xl items-center text-center">
+Production site update
 </div>
 </body>
 </html>
