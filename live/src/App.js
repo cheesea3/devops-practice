@@ -9,7 +9,7 @@ import {
 } from "react-router-dom";
 import axios from 'axios';
 import React, { useEffect, useState } from "react";
-
+import TokenCallback from './TokenCallback'
 
 // return the token from the session storage
 export const getToken = () => {
@@ -41,7 +41,7 @@ export const invalidateLoginSession = () => {
 
 
 function openSSO(){
-  window.open("http://35.222.21.151:3001/", "Popup", "toolbar=no, location=no, statusbar=no, menubar=no, scrollbars=1, resizable=0, width=580, height=600, top=30")
+  window.open("http://35.222.21.151:3001/sso", "Popup", "toolbar=no, location=no, statusbar=no, menubar=no, scrollbars=1, resizable=0, width=580, height=600, top=30")
 }
 
 function Home() {
@@ -70,15 +70,19 @@ function App() {
 
     //if token doesn't exist then don't do anything
     if (!token) {
+      console.log("Error! No token could be found.");
       return;
     }
-    //since token exists, we shall check to see if it is valid on the SSo
-    axios.get(`http://35.222.21.151:3001/checkToken=${token}`).then(response => {
+    //since token exists, we shall check to see if it is valid on the SSO
+    console.log("Checking token through SSO...");
+    axios.get(`http://35.222.21.151:3001/checkToken?token=${token}`).then(response => {
       //set the token inside session storage
+      console.log("Token authenticated from SSO.");
       validateLoginSession(JSON.stringify(response.data));
       //complete load
       setAuthLoading(false);
     }).catch(error => {
+      console.log("Token could not be authenticated from SSO.");
       setAuthLoading(false);
       //since there was an error, assuming the token was invalid, we will invalidate the LoginSession
       invalidateLoginSession();
@@ -87,6 +91,7 @@ function App() {
 
   //if authentication is still loading and a token exists
   if (authLoading && getToken()) {
+    console.log("Currently loading.");
     return (
       <div>Currently Verifying Authentication. <br></br>Please wait...</div>
     );
@@ -97,6 +102,8 @@ function App() {
         <Routes>
           {/* Basically return guest view vs authenticated view...*/}
           {!getToken() ? <Route index element={<Home />} /> : <Route index element={<AuthHome />} />}
+          {!getToken() ? <Route path="/token/" element={<TokenCallback />} /> : <Route path="/token/" element={<AuthHome />} />}
+          <Route path="/token/:token" element={<TokenCallback />} />
         </Routes>
     </Router>
   );
