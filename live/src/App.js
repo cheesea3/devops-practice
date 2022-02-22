@@ -9,7 +9,6 @@ import {
 } from "react-router-dom";
 import axios from 'axios';
 import React, { useEffect, useState } from "react";
-import PublicRoute from './publicroute';
 
 
 // return the token from the session storage
@@ -41,9 +40,17 @@ export const invalidateLoginSession = () => {
 }
 
 
+function openSSO(){
+  window.open("http://35.222.21.151:3001/", "Popup", "toolbar=no, location=no, statusbar=no, menubar=no, scrollbars=1, resizable=0, width=580, height=600, top=30")
+}
+
 function Home() {
   return (
-    <div>You must log in to access the development environment</div>
+    <div>You must log in to access the development environment
+      <br>
+      </br>
+    <button onClick={()=> openSSO()}>Sign In</button>
+    </div>
   );
 }
 
@@ -81,7 +88,7 @@ function App() {
   //if authentication is still loading and a token exists
   if (authLoading && getToken()) {
     return (
-      <div>Currently Verifying Authentication</div>
+      <div>Currently Verifying Authentication. <br></br>Please wait...</div>
     );
   }
 
