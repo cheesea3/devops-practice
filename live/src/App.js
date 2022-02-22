@@ -4,6 +4,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
+  useSearchParams,
   Routes,
   Link
 } from "react-router-dom";
@@ -96,6 +97,14 @@ function App() {
       <div>Currently Verifying Authentication. <br></br>Please wait...</div>
     );
   }
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  event.preventDefault();
+  // The serialize function here would be responsible for
+  // creating an object of { key: value } pairs from the
+  // fields in the form that make up the query.
+  let params = serializeFormQuery(event.target);
+  setSearchParams(params);
 
   return (
     <Router>
