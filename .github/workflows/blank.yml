@@ -24,6 +24,7 @@ jobs:
         host: ${{ secrets.FTP_SERVER }}
         user: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        localDir: "./live"
-        remoteDir: "/prod-project"
+        # react project lives in live and build is the version that we want deployed to the remoteDir dev-project
+        localDir: "./live/build"
+        remoteDir: "/dev-project"
         delete: "true"
