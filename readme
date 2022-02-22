@@ -1,1 +1,3 @@
-initial file
+This is connected to our single sign on server that is setup through our LDAP and a unique token entry set for each user in the active directory it is tied to which is validated through an endpoint setup on the LDAP server.
+You can view the repository for our single sign on auth server here:
+https://github.com/sterlingwalker/devops-auth
