@@ -4,7 +4,7 @@ import React from 'react';
 import {invalidateLoginSession, validateLoginSession} from './App.js';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
-
+import { opened } from './App.js';
 
 function TokenCallback () {
   let navigate = useNavigate();
@@ -28,6 +28,9 @@ function TokenCallback () {
       setTokenLoading(false);
       setValidUser(true);
       console.log("Valid token after SSO");
+      window.close();
+      //close popup window
+      opened.close();
       //navigate user back to home after authentication
       navigate("/");
     }).catch(error => {
@@ -36,6 +39,8 @@ function TokenCallback () {
       console.log("Invalid token after SSO");
       //since there was an error, assuming the token was invalid, we will invalidate the LoginSession
       invalidateLoginSession();
+      //close popup window
+      opened.close();      
       //navigate user back to home after invalid authentication
       navigate("/");
     });

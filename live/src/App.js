@@ -41,18 +41,23 @@ export const invalidateLoginSession = () => {
 
 
 function openSSO(){
-  window.open("http://35.222.21.151:3001/", "Popup", "toolbar=no, location=no, statusbar=no, menubar=no, scrollbars=1, resizable=0, width=580, height=600, top=30")
+  return window.open("http://35.222.21.151:3001/sso", "Popup", "toolbar=no, location=no, statusbar=no, menubar=no, scrollbars=1, resizable=0, width=580, height=600, top=30");
 }
+//keep a reference to the window thats opened from the sign in button to close later upon authentication
+export const opened = () => openSSO();
+
+
 
 function Home() {
   return (
     <div>You must log in to access the development environment
       <br>
       </br>
-    <button onClick={()=> openSSO()}>Sign In</button>
+    <button onClick={()=> opened()}>Sign In</button>
     </div>
   );
 }
+
 
 function AuthHome() {
   return (
@@ -61,6 +66,8 @@ function AuthHome() {
 }
 
 function App() {
+  
+
 
   const [authLoading, setAuthLoading] = useState(true);
 
