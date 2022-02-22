@@ -4,7 +4,7 @@ import React from 'react';
 import {invalidateLoginSession, validateLoginSession} from './App.js';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
-import { opened } from './App.js';
+import { getToken } from './App';
 
 function TokenCallback () {
   let navigate = useNavigate();
@@ -21,30 +21,28 @@ function TokenCallback () {
       return;
     }
     //since token exists, we shall check to see if it is valid on the SSo
-    axios.get(`http://35.222.21.151:3001/checkToken?token=${token}`).then(response => {
+    axios.get(`https://35.222.21.151:9000/checkToken?token=${token}`).then(response => {
+      console.log("Valid token after SSO. Setting token...");      
       //set the token inside session storage
       validateLoginSession(JSON.stringify(response.data));
       //complete loads
       setTokenLoading(false);
       setValidUser(true);
-      console.log("Valid token after SSO");
-      window.close();
-      //close popup window
-      opened.close();
       //navigate user back to home after authentication
-      navigate("/");
+      if(getToken()){
+      console.log("Token is set, redirecting back with stored session token.");
+      return window.open("https://dev.nightoff.org","_self")
+      }
     }).catch(error => {
       setTokenLoading(false);
       setValidUser(false);
       console.log("Invalid token after SSO");
       //since there was an error, assuming the token was invalid, we will invalidate the LoginSession
       invalidateLoginSession();
-      //close popup window
-      opened.close();      
       //navigate user back to home after invalid authentication
       navigate("/");
     });
-  }, []);
+  }, [token]);
 
       if (!validUser && loading) {
         return <div>Validating credentials after SSO completion. <br></br>Please wait...</div>
