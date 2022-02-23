@@ -44,7 +44,7 @@ function openSSO(){
 
 function Home() {
   return (
-    <div>You must log in to access the development environment
+    <div>You must log in to access the development environment.
       <br>
       </br>
     <button onClick={()=> openSSO()}>Sign In</button>
